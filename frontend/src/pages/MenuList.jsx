@@ -4,7 +4,6 @@ import { addToCart, removeFromCart, submitOrder } from '../store/slices/orderSli
 //clearCart
 import axios from 'axios';
 import { Trash2, ShoppingCart } from 'lucide-react';
-//search, Filter
 
 export default function MenuList() {
   const dispatch = useDispatch();
