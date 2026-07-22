@@ -20,7 +20,7 @@ export default function AdminDashboard() {
       });
       setOrders(orders.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
     } catch (err) {
-      alert('Error updating order state');
+      alert('Error updating order state',err);
     }
   };
 

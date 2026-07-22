@@ -17,7 +17,7 @@ export default function Cart() {
       alert('Order placed successfully!');
       dispatch(clearCart());
     } catch (err) {
-      alert('Checkout error processing order.');
+      alert('Checkout error processing order.',err);
     }
   };
 

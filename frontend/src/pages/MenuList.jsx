@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+//import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, removeFromCart, submitOrder, clearCart } from '../store/slices/orderSlice';
+import { addToCart, removeFromCart, submitOrder } from '../store/slices/orderSlice';
+//clearCart
 import axios from 'axios';
-import { Search, Filter, Trash2, ShoppingCart } from 'lucide-react';
+import { Trash2, ShoppingCart } from 'lucide-react';
+//search, Filter
 
 export default function MenuList() {
   const dispatch = useDispatch();
