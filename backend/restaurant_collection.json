@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "Smart Restaurant REST Engine API",
+    "schema": "https://getpostman.com"
+  },
+  "item": [
+    {
+      "name": "User Registration",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"securepassword123\",\n  \"role\": \"Customer\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/auth/register" }
+      }
+    },
+    {
+      "name": "User Access Session Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"securepassword123\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/auth/login" }
+      }
+    },
+    {
+      "name": "Submit Order Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{jwt_token_variable}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"menuItem\": \"64f8c9b2e4b0c2a1d4f5e6a7\",\n      \"quantity\": 2\n    }\n  ]\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/orders" }
+      }
+    }
+  ]
+}
