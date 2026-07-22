@@ -7,19 +7,32 @@ export default function Feedback() {
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({ rating: 5, comment: '' });
 
-  const fetchReviews = async () => {
-    const res = await axios.get('http://localhost:5000/api/feedback');
-    setReviews(res.data);
-  };
-
-  useEffect(() => { fetchReviews(); }, []);
+  // 🔑 FIXED: Put fetch data dependencies inside useEffect cleanly
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/feedback');
+        setReviews(res.data);
+      } catch (err) {
+        console.error('Error fetching reviews:', err);
+      }
+    };
+    fetchReviews();
+  }, []);
 
   const handleFeedback = async (e) => {
     e.preventDefault();
-    const config = { headers: { Authorization: `Bearer ${user?.token}` } };
-    await axios.post('http://localhost:5000/api/feedback', form, config);
-    setForm({ rating: 5, comment: '' });
-    fetchReviews();
+    try {
+      const config = { headers: { Authorization: `Bearer ${user?.token}` } };
+      await axios.post('http://localhost:5000/api/feedback', form, config);
+      setForm({ rating: 5, comment: '' });
+      
+      // Refresh the array locally after submitting
+      const res = await axios.get('http://localhost:5000/api/feedback');
+      setReviews(res.data);
+    } catch (err) {
+      console.error('Error submitting feedback:', err);
+    }
   };
 
   return (
@@ -28,7 +41,7 @@ export default function Feedback() {
       {user && (
         <form onSubmit={handleFeedback} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
           <select value={form.rating} onChange={e => setForm({ ...form, rating: parseInt(e.target.value) })} style={{ padding: '0.5rem' }}>
-            {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} Stars</option>)}
+            {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n} Stars</option>)}
           </select>
           <textarea placeholder="Write your review here..." value={form.comment} onChange={e => setForm({ ...form, comment: e.target.value })} style={{ padding: '0.5rem', height: '80px' }} required />
           <button type="submit" style={{ background: '#0070f3', color: '#fff', border: 'none', padding: '0.5rem', cursor: 'pointer' }}>Submit Review</button>

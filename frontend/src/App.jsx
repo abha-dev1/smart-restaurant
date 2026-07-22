@@ -1,23 +1,24 @@
-// import React from 'react';
+//import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from './store/slices/authSlice';
 
-import AuthForm from './pages/AuthForm.jsx';
+import AuthForm from './pages/AuthForm';
 import MenuList from './pages/MenuList';
 import ReservationForm from './pages/ReservationForm';
 import AdminPanel from './pages/AdminPanel';
 import Feedback from './pages/Feedback';
 
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const { user } = useSelector((state) => state.auth);
+  if (!user) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/menu" replace />;
+  return children;
+};
+
 export default function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
-  const ProtectedRoute = ({ children, allowedRoles }) => {
-    if (!user) return <Navigate to="/login" replace />;
-    if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/menu" replace />;
-    return children;
-  };
 
   return (
     <BrowserRouter>
